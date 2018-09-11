@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/encode.js" charset="utf-8"></script>
+    <script src="/javascripts/domParse.js" charset="utf-8"></script>
+    <script type="text/javascript">
+    	var parse = function(str)
+    	{
+    		
+    	}
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <textarea name="name" rows="8" cols="80" id="txt">
+    	<p>sks <img src="null" alt="" onerror="alert(1);"></p>
+    </textarea>
+
+    <button type="button" name="button" id="btn">评论</button>
+    <button type="button" name="button" id="get">获取评论</button>
+    <script type="text/javascript">
+    	var btn = document.getElementById('btn');
+    	var get = document.getElementById('get');
+    	var txt = document.getElementById('txt');
+
+    	btn.addEventListener('click',function(){
+    		var xhr = new XMLHttpRequest();
+    		var url = '/comment?comment=' + txt.value;
+    		xhr.open('GET',url,true);
+    		xhr.send();
+    		xhr.onreadystatechange=function(){
+    			if(xhr.readyState==4)
+    			{	
+	    			if(xhr.status == 200)
+	    			{
+	    				console.log(xhr);
+	    			}
+	    			else
+	    			{
+	    				console.log('error');
+	    			}
+    			}
+    		}
+    	});
+
+    	get.addEventListener('click',function(){
+    		var xhr = new XMLHttpRequest();
+    		var url = '/getComment';
+    		xhr.open('GET',url,true);
+    		xhr.send();
+    		xhr.onreadystatechange=function(){
+    			if(xhr.readyState==4)
+    			{	
+	    			if(xhr.status == 200)
+	    			{
+	    				parse()
+	    			}
+	    			else
+	    			{
+	    				console.log('error');
+	    			}
+    			}
+    		}
+    	});
+    </script>
+  </body>
+</html>
