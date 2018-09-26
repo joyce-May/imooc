@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<title>绘制直线、多边形</title>
+</head>
+<body>
+	<canvas id="canvas" width="1024" height="500" style="border:1px solid #aaa;display:block;margin:50px auto;"></canvas>
+	<script>
+		window.onload = function() {
+			var canvas = document.getElementById('canvas');
+
+			//除了在标签中定义宽高外，还可以使用这种方式
+			canvas.width = 1024;
+			canvas.height = 768;
+
+			if(canvas.getContext("2d"))
+			{
+				var context = canvas.getContext("2d")
+				//使用context绘制
+			}
+			else
+			{
+				alert('当前浏览器不支持Canvas,请更换浏览器后再试')
+				return
+			}
+
+			//canvas中的绘图是一种基于状态的绘图，也就是说整个的绘制过程应该先设置状态，之后调用具体的函数来做具体的绘制
+
+			/****************************************绘制一条线BEGIN*******************************************/
+			/**
+			 * 绘制边框
+			 */
+			// //状态绘制
+			// context.moveTo(100,100) 
+			// context.lineTo(700,700)
+			// context.lineTo(100,700)
+			// context.lineTo(100,100)
+			// context.lineWidth = 5
+			// context.strokeStyle = "#005588"  
+
+			// //具体的绘制
+			// context.stroke()
+
+			/**
+			 * 绘制填充
+			 */
+			// context.moveTo(100,100) 
+			// context.lineTo(700,700)
+			// context.lineTo(100,700)
+			// context.lineTo(100,100)
+
+			// context.fillStyle = "rgb(2,100,30)"
+			// context.fill()
+
+			/**
+			 * 绘制边框+填充
+			 */
+			// context.moveTo(100,100) 
+			// context.lineTo(700,700)
+			// context.lineTo(100,700)
+			// context.lineTo(100,100)
+
+			// context.fillStyle = "rgb(2,100,30)"
+			// context.fill()
+
+			// context.lineWidth = 5
+			// context.strokeStyle = "red"
+			// context.stroke()
+			/****************************************绘制一条线END*******************************************/
+
+			/***************************************绘制两条线BEGIN*****************************************/
+			// context.moveTo(100,100) 
+			// context.lineTo(700,700)
+			// context.lineTo(100,700)
+			// context.lineTo(100,100)
+
+			// context.lineWidth = 5
+			// context.strokeStyle = "red"  
+			// context.stroke()
+
+			// //绘制两条线只需再调用一次moveTo方法
+			// context.moveTo(200,100)
+			// context.lineTo(700,600)
+			// context.strokeStyle = "black"
+			// context.stroke()
+
+			//上述代码执行后绘制出来的三角形和线条都是黑色的，这是为什么？
+			//这还是因为canvas的绘制都是基于状态的。再调用第一个stroke()时，我们的状态设置的那些。但是当我们调用第二个stroke时，事实上第一次stroke设置的那些状态依然在起作用，所以再调用第二个stroke时，即绘制了第一个状态中的三角形，又绘制了第二次中的线。
+
+
+			//那么如何将两次的状态分开？
+			//我们用到beginPath和closePath。beginPath的声明意味着从此是起我们开始了一段新的路径，相应的我们在路径结束后需要使用closePath。这样在此种的状态只会在之后的stroke中起作用
+			context.beginPath()
+			context.moveTo(100,100) 
+			context.lineTo(700,700)
+			context.lineTo(100,700)
+			context.lineTo(100,100)
+			context.closePath()
+
+			context.lineWidth = 5
+			context.strokeStyle = "red"  
+			context.stroke()
+
+			context.beginPath()
+			context.moveTo(200,100)
+			context.lineTo(700,600)
+			context.closePath()
+			context.strokeStyle = "black"
+			context.stroke()
+
+			/***************************************绘制两条线END*****************************************/
+
+		}
+	</script>
+</body>
+</html>

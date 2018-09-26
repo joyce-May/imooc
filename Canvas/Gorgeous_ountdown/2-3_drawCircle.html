@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<title>绘制弧和圆</title>
+</head>
+<body>
+<canvas id="canvas" style="border:1px solid #aaa;display:block;margin:50px auto;">
+	当前浏览器不支持Canvas,请更换浏览器后再试
+</canvas>
+
+<script>
+	window.onload = function(){
+		var canvas = document.getElementById('canvas');
+
+		canvas.width = 1024;
+		canvas.height = 768;
+
+		var context = canvas.getContext("2d");
+
+		/*************************************空心BEGIN***************************************/
+
+		context.lineWidth = 5;
+		context.strokeStyle = "#005588";
+		/**
+		 * 绘制一段弧
+		 */
+		// //以300，300为圆心，200为半径，从0到1.5圆周率
+		// context.arc(300,300,200,0,1.5*Math.PI);
+		// context.stroke();
+
+		/**
+		 * 绘制10段弧（首尾相连）
+		 */
+		 //显示结果和想象中的不大一样，弧的起点和终点被一条线连接了起来，这是因为closePath的原因。
+		 //当我们当前绘制的路径不是封闭路径的时候，如果我们使用了closePath,closePath会自动将我们这段不封闭的首尾使用线段连接起来
+		 for(var i=0; i<10; i++)
+		 {
+		 	context.beginPath();
+		 	context.arc(50 + i*100, 60, 40, 0, 2*Math.PI*(i+1)/10)
+		 	context.closePath();
+
+		 	context.stroke();
+		 }
+
+
+		//那么我们如何绘制首尾不相连的弧呢？
+		/**
+		 * 绘制10段弧（首尾不相连）
+	     */
+	    for(var i=0; i<10; i++)
+	    {
+	    	context.beginPath();
+	    	context.arc(50 + i*100, 180, 40, 0, 2*Math.PI*(i+1)/10);
+
+	    	context.stroke();
+	    }
+
+	    /**
+	     * 继续使用beginPath和closePath,同时arc的最后一个参数传true，表示逆时针方向
+	     */
+	    for(var i=0; i<10; i++)
+	    {
+	    	context.beginPath();
+	    	context.arc(50+ i*100,300,40,0,2*Math.PI*(i+1)/10,true);
+	    	context.closePath();
+
+	    	context.stroke();
+	    }
+
+	    /**
+	     * 只beginPath,同时arc的最后一个参数传true，表示逆时针方向
+	     */
+	    for(var i=0;i<10;i++)
+	    {
+	    	context.beginPath();
+	    	context.arc(50+ i*100,420,40,0,2*Math.PI*(i+1)/10,true);
+
+	    	context.stroke();
+	    }
+
+	    /*************************************空心END***************************************/
+	    /*************************************实心BEGIN***************************************/
+	    context.fillStyle = "#005588";
+	   	//使用closePath
+	    for(var i=0;i<10;i++)
+	    {
+	    	context.beginPath();
+	    	context.arc(50+i*100,540,40,0,2*Math.PI*(i+1)/10)
+	    	context.closePath();
+
+	    	context.fill();
+	    }
+
+	    //不使用closePath
+	   	for(var i=0;i<10;i++)
+	    {
+	    	context.beginPath();
+	    	context.arc(50+i*100,660,40,0,2*Math.PI*(i+1)/10)
+
+	    	context.fill();
+	    }
+	    //总结：closePath对于fill是没有用的
+	    /*************************************实心END***************************************/
+	}
+</script>
+</body>
+</html>
